@@ -41,6 +41,7 @@
     <button
       id="btnReset"
       class="btn"
+      disabled
     >Reset</button>
   </div>
 
@@ -48,51 +49,85 @@
     <legend>Choose your monster's features:</legend>
 
     <div>
-      <input type="checkbox" id="basic" name="basic" checked>
-      <label for="basic">Basic</label>
+      <input type="checkbox" id="gtm" name="gtm">
+      <label for="gtm">Google Tag Manager</label>
+    </div>
+
+    <div>
+      <input type="checkbox" id="gtmCustomVars" name="gtm">
+      <label for="gtmCustomVars">Google Tag Custom Variables</label>
+    </div>
+
+    <div>
+      <input type="checkbox" id="gtmPreviewMode" name="gtm">
+      <label for="gtmPreviewMode">Google Tag Manager's Preview Mode</label>
     </div>
 
   </fieldset>
 
   <script async>
-    function generateCSP() {
-      var res = "default-src 'none';";
+    let result = {};
+    let csp = '';
+    const mergeArrays = (a, b) => a.concat(b.filter((item) => a.indexOf(item) === -1));
+    function generateResObj() {
+      const resObj = {
+        'script-src': ["'self'"], // "'unsafe-inline'", "'unsafe-eval'"
+        'style-src': ["'self'"],
+        'img-src': ["'self'"],
+        'font-src': ["'self'"],
+        'manifest-src': ["'self'"],
+        'connect-src': ["'self'"],
+        'object-src': ["'self'"],
+        'media-src': ["'self'"],
+        'worker-src': ["'self'", "blob:"],
+        'form-action': ["'self'"],
+        'base-uri': ["'self'"],
+        'frame-src': ["'self'"],
+        'child-src': ["'self'"],
+        'frame-ancestors': ["'none'"],
+        'prefetch-src': ["'self'"],
+        'upgrade-insecure-requests': [],
+        'block-all-mixed-content': []
+      };
+
+      for (let i = 0; i < boxKeys.length; ++i) {
+        const bKey = boxKeys[i];
+        const bVal = boxVals[bKey];
+        if (!bVal) continue;
+        const targetBoxSettings = settingsObj[bKey];
+        const targetBoxKeys = Object.keys(targetBoxSettings);
+
+        for (let j = 0; j < targetBoxKeys.length; ++j) {
+          const tbKey = targetBoxKeys[j];
+          const targetBoxValues = targetBoxSettings[tbKey];
+          resObj[tbKey] = mergeArrays(resObj[tbKey], targetBoxValues);
+        }
+      }
+
+      return resObj;
+    }
+    function generateCSPString() {
+      let res = "default-src 'none';";
 
       for (let i = 0; i < resOrder.length; ++i) {
-        var key = resOrder[i];
-        var arr = resObj[key];
-        var chunk = key;
+        const key = resOrder[i];
+        const arr = result[key];
+        let chunk = key;
 
         for (let j = 0; j < arr.length; ++j) {
-          chunk += ' ' + arr[j];
+          chunk += ` ${arr[j]}`;
         }
-
-        res += ' ' + chunk + ';';
+        res += ` ${chunk};`;
       }
 
       return res;
     }
-
-    var resObj = {
-      'script-src': ["'self'", "'unsafe-inline'", "'unsafe-eval'"],
-      'style-src': ["'self'"],
-      'img-src': ["'self'"],
-      'font-src': ["'self'"],
-      'manifest-src': ["'self'"],
-      'connect-src': ["'self'"],
-      'object-src': ["'self'"],
-      'media-src': ["'self'"],
-      'worker-src': ["'self'", "blob:"],
-      'form-action': ["'self'"],
-      'base-uri': ["'self'"],
-      'frame-src': ["'self'"],
-      'child-src': ["'self'"],
-      'frame-ancestors': ["'none'"],
-      'prefetch-src': ["'self'"],
-      'upgrade-insecure-requests': [],
-      'block-all-mixed-content': []
-    };
-    var resOrder = [
+    function generateCSP() {
+      result = generateResObj();
+      csp = generateCSPString();
+      document.getElementById("result").value = csp;
+    }
+    const resOrder = [
       'script-src', 'style-src',
       'img-src', 'font-src', 'manifest-src',
       'connect-src', 'object-src', 'media-src',
@@ -100,14 +135,93 @@
       'frame-src', 'child-src', 'frame-ancestors',
       'prefetch-src', 'upgrade-insecure-requests', 'block-all-mixed-content'
     ];
+    const settingsObj = {
+      gtm: { // ToDo: add unsafe-inline note: https://developers.google.com/tag-platform/tag-manager/web/csp#enable_the_container_tag_to_use_csp
+        'script-src': ["'unsafe-inline'", 'https://www.googletagmanager.com'],
+        'img-src': ['www.googletagmanager.com'],
+      },
+      gtmCustomVars: { // https://developers.google.com/tag-platform/tag-manager/web/csp#custom_javascript_variables
+        'script-src': ["'unsafe-inline'"],
+      },
+      /* Google Tag Manager's Preview Mode */
+      gtmPreviewMode: { // https://developers.google.com/tag-platform/tag-manager/web/csp#preview_mode
+        'script-src': ['https://tagmanager.google.com'],
+        'style-src': ['https://tagmanager.google.com', 'https://fonts.googleapis.com'],
+        'img-src': ['https://ssl.gstatic.com', 'https://www.gstatic.com'],
+        'font-src': ['https://fonts.gstatic.com', 'data:'],
+      },
+      /* Google Analytics 4 (Google Analytics) tag */
+      ga4: { // https://developers.google.com/tag-platform/tag-manager/web/csp#google_analytics_4_google_analytics
+        'script-src': ['https://*.googletagmanager.com'],
+        'img-src': ['https://*.google-analytics.com', 'https://*.googletagmanager.com'],
+        'connect-src': ['https://*.google-analytics.com', 'https://*.analytics.google.com', 'https://*.googletagmanager.com'],
+      },
+      /* Google Analytics 4 (Google Analytics) deployments using Google Signals */
+      ga4signal: { // For Google Analytics 4 (Google Analytics) deployments using Google Signals, the CSP must include the following directives:
+        'script-src': ['https://*.googletagmanager.com'],
+        'img-src': ['https://*.google-analytics.com', 'https://*.analytics.google.com', 'https://*.googletagmanager.com', 'https://*.g.doubleclick.net', 'https://*.google.com', 'https://*.google.<TLD>'],
+        'connect-src': ['https://*.google-analytics.com', 'https://*.analytics.google.com', 'https://*.googletagmanager.com', 'https://*.g.doubleclick.net', 'https://*.google.com', 'https://*.google.<TLD>'],
+      }, // ToDo: TLD list https://www.google.com/supported_domains
+      /* Universal Analytics (Google Analytics) tag */
+      gaUniv: { // https://developers.google.com/tag-platform/tag-manager/web/csp#universal_analytics_google_analytics
+        'script-src': ['https://www.google-analytics.com', 'https://ssl.google-analytics.com'],
+        'img-src': ['https://www.google-analytics.com'],
+        'connect-src': ['https://www.google-analytics.com'],
+      },
+      /* Google Optimize tag */
+      gOpt: { // https://developers.google.com/tag-platform/tag-manager/web/csp#google_optimize
+        'script-src': ['https://www.google-analytics.com'],
+      },
+      /* Google Ads conversion tag */
+      gAds: {
+        'script-src': ['https://www.googleadservices.com', 'https://www.google.com'],
+        'img-src': ['https://googleads.g.doubleclick.net', 'https://www.google.com'],
+      },
+      /* Google Ads remarketing tag */
+      gAdsRemarketing: {
+        'script-src': ['https://www.googleadservices.com', 'https://googleads.g.doubleclick.net', 'https://www.google.com'],
+        'img-src': ['https://www.google.com'],
+        'frame-src': ['https://bid.g.doubleclick.net'],
+      },
+      /* Floodlight users ToDo: add ID text input */
+      floodl: { // https://developers.google.com/tag-platform/tag-manager/web/csp#floodlight
+        'img-src': ['https://<FLOODLIGHT-CONFIG-ID>.fls.doubleclick.net'],
+      },
+      /* "custom scripts" beacons in Tag Manager */
+      floodCS: {
+        'frame-src': ['https://<FLOODLIGHT-CONFIG-ID>.fls.doubleclick.net'],
+      },
+      /* image tags */
+      floodImg: {
+        'img-src': ['https://ad.doubleclick.net'],
+      },
+      /* consent mode */
+      floodCM: { // https://developers.google.com/tag-platform/devguides/consent
+        'img-src': ['https://ade.googlesyndication.com'],
+      },
+      gatsby: {
+        'script-src': ["'unsafe-inline'"],
+      },
+    };
+    Object.fromEntries = arr => Object.assign({}, ...Array.from(arr, (k) => ({[k]: false})));
+    const boxKeys = Object.keys(settingsObj);
+    const boxVals = Object.fromEntries(boxKeys);
 
-    // const checkboxes = document.querySelectorAll('input[type="checkbox"]');
-    var resCSP = generateCSP();
-    document.getElementById("result").value = resCSP;
-
-    document.getElementById("btnCopy").onclick = function onCopyResult() {
-      navigator.clipboard.writeText(resCSP);
+    const cboxes = document.querySelectorAll('input[type="checkbox"]');
+    for (let i = 0; i < cboxes.length; ++i) {
+      cboxes[i].addEventListener('change', function({target:{id, checked}}) {
+        if (boxVals.hasOwnProperty(id)) {
+          boxVals[id] = checked;
+          generateCSP();
+        }
+      })
     }
+
+    document.getElementById("btnCopy").onclick = () => {
+      navigator.clipboard.writeText(csp);
+    }
+
+    generateCSP();
   </script>
 
   </body>
