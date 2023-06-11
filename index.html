@@ -1,0 +1,114 @@
+<!doctype html>
+<html class="no-js" lang="">
+  <head>
+    <meta charset="utf-8">
+    <title>CSP Maker</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <style>
+      body {
+        font-family: Arial sans-serif;
+      }
+      .textArea {
+        -webkit-box-sizing: border-box;
+        -moz-box-sizing: border-box;
+        box-sizing: border-box;
+        width: 100%;
+      }
+      .buttons {
+        margin: 0.5rem auto 1rem;
+        display: flex;
+        flex-wrap: wrap;
+        column-gap: 12px;
+      }
+    </style>
+  </head>
+  <body>
+
+  <textarea
+    id="result"
+    class="textArea"
+    readonly
+    rows="20"
+  ></textarea>
+
+  <div class="buttons">
+    <button
+      id="btnCopy"
+      class="btn"
+    >Copy</button>
+    <button
+      id="btnReset"
+      class="btn"
+    >Reset</button>
+  </div>
+
+  <fieldset>
+    <legend>Choose your monster's features:</legend>
+
+    <div>
+      <input type="checkbox" id="basic" name="basic" checked>
+      <label for="basic">Basic</label>
+    </div>
+
+  </fieldset>
+
+  <script async>
+    function generateCSP() {
+      var res = "default-src 'none';";
+
+      for (let i = 0; i < resOrder.length; ++i) {
+        var key = resOrder[i];
+        var arr = resObj[key];
+        var chunk = key;
+
+        for (let j = 0; j < arr.length; ++j) {
+          chunk += ' ' + arr[j];
+        }
+
+        res += ' ' + chunk + ';';
+      }
+
+      return res;
+    }
+
+    var resObj = {
+      'script-src': ["'self'", "'unsafe-inline'", "'unsafe-eval'"],
+      'style-src': ["'self'"],
+      'img-src': ["'self'"],
+      'font-src': ["'self'"],
+      'manifest-src': ["'self'"],
+      'connect-src': ["'self'"],
+      'object-src': ["'self'"],
+      'media-src': ["'self'"],
+      'worker-src': ["'self'", "blob:"],
+      'form-action': ["'self'"],
+      'base-uri': ["'self'"],
+      'frame-src': ["'self'"],
+      'child-src': ["'self'"],
+      'frame-ancestors': ["'none'"],
+      'prefetch-src': ["'self'"],
+      'upgrade-insecure-requests': [],
+      'block-all-mixed-content': []
+    };
+    var resOrder = [
+      'script-src', 'style-src',
+      'img-src', 'font-src', 'manifest-src',
+      'connect-src', 'object-src', 'media-src',
+      'worker-src', 'form-action', 'base-uri',
+      'frame-src', 'child-src', 'frame-ancestors',
+      'prefetch-src', 'upgrade-insecure-requests', 'block-all-mixed-content'
+    ];
+
+    // const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+    var resCSP = generateCSP();
+    document.getElementById("result").value = resCSP;
+
+    document.getElementById("btnCopy").onclick = function onCopyResult() {
+      navigator.clipboard.writeText(resCSP);
+    }
+  </script>
+
+  </body>
+</html>
