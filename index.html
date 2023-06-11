@@ -46,7 +46,7 @@
   </div>
 
   <fieldset>
-    <legend>Choose your monster's features:</legend>
+    <legend>Choose your features:</legend>
 
     <div>
       <input type="checkbox" id="gtm" name="gtm">
@@ -66,68 +66,8 @@
   </fieldset>
 
   <script async>
-    let result = {};
-    let csp = '';
-    const mergeArrays = (a, b) => a.concat(b.filter((item) => a.indexOf(item) === -1));
-    function generateResObj() {
-      const resObj = {
-        'script-src': ["'self'"], // "'unsafe-inline'", "'unsafe-eval'"
-        'style-src': ["'self'"],
-        'img-src': ["'self'"],
-        'font-src': ["'self'"],
-        'manifest-src': ["'self'"],
-        'connect-src': ["'self'"],
-        'object-src': ["'self'"],
-        'media-src': ["'self'"],
-        'worker-src': ["'self'", "blob:"],
-        'form-action': ["'self'"],
-        'base-uri': ["'self'"],
-        'frame-src': ["'self'"],
-        'child-src': ["'self'"],
-        'frame-ancestors': ["'none'"],
-        'prefetch-src': ["'self'"],
-        'upgrade-insecure-requests': [],
-        'block-all-mixed-content': []
-      };
-
-      for (let i = 0; i < boxKeys.length; ++i) {
-        const bKey = boxKeys[i];
-        const bVal = boxVals[bKey];
-        if (!bVal) continue;
-        const targetBoxSettings = settingsObj[bKey];
-        const targetBoxKeys = Object.keys(targetBoxSettings);
-
-        for (let j = 0; j < targetBoxKeys.length; ++j) {
-          const tbKey = targetBoxKeys[j];
-          const targetBoxValues = targetBoxSettings[tbKey];
-          resObj[tbKey] = mergeArrays(resObj[tbKey], targetBoxValues);
-        }
-      }
-
-      return resObj;
-    }
-    function generateCSPString() {
-      let res = "default-src 'none';";
-
-      for (let i = 0; i < resOrder.length; ++i) {
-        const key = resOrder[i];
-        const arr = result[key];
-        let chunk = key;
-
-        for (let j = 0; j < arr.length; ++j) {
-          chunk += ` ${arr[j]}`;
-        }
-        res += ` ${chunk};`;
-      }
-
-      return res;
-    }
-    function generateCSP() {
-      result = generateResObj();
-      csp = generateCSPString();
-      document.getElementById("result").value = csp;
-    }
-    const resOrder = [
+    /* DEFINITIONS */
+    const cspKeys = [
       'script-src', 'style-src',
       'img-src', 'font-src', 'manifest-src',
       'connect-src', 'object-src', 'media-src',
@@ -203,22 +143,81 @@
         'script-src': ["'unsafe-inline'"],
       },
     };
-    Object.fromEntries = arr => Object.assign({}, ...Array.from(arr, (k) => ({[k]: false})));
+    Object.fromEntries = arr => Object.assign({}, ...Array.from(arr, k => ({[k]: false})));
     const boxKeys = Object.keys(settingsObj);
-    const boxVals = Object.fromEntries(boxKeys);
+    const boxValues = Object.fromEntries(boxKeys);
 
-    const cboxes = document.querySelectorAll('input[type="checkbox"]');
-    for (let i = 0; i < cboxes.length; ++i) {
-      cboxes[i].addEventListener('change', function({target:{id, checked}}) {
-        if (boxVals.hasOwnProperty(id)) {
-          boxVals[id] = checked;
-          generateCSP();
-        }
-      })
+    /* */
+    let cspObj = {};
+    let cspStr = '';
+    const mergeArraysUniq = (a, b) => a.concat(b.filter(item => a.indexOf(item) === -1));
+    function generateCSPObj() {
+      const cspObj = {
+        'script-src': ["'self'"], // "'unsafe-inline'", "'unsafe-eval'"
+        'style-src': ["'self'"],
+        'img-src': ["'self'"],
+        'font-src': ["'self'"],
+        'manifest-src': ["'self'"],
+        'connect-src': ["'self'"],
+        'object-src': ["'self'"],
+        'media-src': ["'self'"],
+        'worker-src': ["'self'"], // "blob:"
+        'form-action': ["'self'"],
+        'base-uri': ["'self'"],
+        'frame-src': ["'self'"],
+        'child-src': ["'self'"],
+        'frame-ancestors': ["'none'"],
+        'prefetch-src': ["'self'"],
+        'upgrade-insecure-requests': [],
+        'block-all-mixed-content': []
+      };
+
+      boxKeys.forEach((k) => {
+        const bVal = boxValues[k];
+        if (!bVal) return;
+
+        const targetSettings = settingsObj[k];
+        const targetKeys = Object.keys(targetSettings);
+
+        targetKeys.forEach((tKey) => {
+          const targetValues = targetSettings[tKey];
+          cspObj[tKey] = mergeArraysUniq(cspObj[tKey], targetValues);
+        });
+      });
+
+      return cspObj;
+    }
+    function generateCSPString() {
+      let res = "default-src 'none';";
+
+      cspKeys.forEach(sk => {
+        const cspValues = cspObj[sk];
+        let chunk = sk;
+
+        cspValues.forEach(cspVal => {
+          chunk += ` ${cspVal}`;
+        });
+        res += ` ${chunk};`;
+      });
+
+      return res;
+    }
+    function generateCSP() {
+      cspObj = generateCSPObj();
+      cspStr = generateCSPString();
+      document.getElementById("result").value = cspStr;
     }
 
+    const cboxes = document.querySelectorAll('input[type="checkbox"]');
+    cboxes.forEach(cb => cb.addEventListener('change', function({target:{id, checked}}) {
+      if (boxValues.hasOwnProperty(id)) {
+        boxValues[id] = checked;
+        generateCSP();
+      }
+    }));
+
     document.getElementById("btnCopy").onclick = () => {
-      navigator.clipboard.writeText(csp);
+      navigator.clipboard.writeText(cspStr);
     }
 
     generateCSP();
