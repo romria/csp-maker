@@ -1,0 +1,12 @@
+{
+  "name": "csp-maker",
+  "version": "0.1.0",
+  "description": "Content Security Policy (CSP) is a security layer that helps to prevent certain types of attacks, including Cross-Site Scripting (XSS) and data injection attacks. This can be achieved by restricting which resources (JavaScript, CSS, Images, etc.) can be loaded on your website.",
+  "repository": "https://github.com/romria/content-security-policy-builder",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "author": "romria",
+  "license": "Unlicense"
+}

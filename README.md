@@ -2,6 +2,20 @@
 
 Content Security Policy (CSP) is a security layer that helps to prevent certain types of attacks, including Cross-Site Scripting (XSS) and data injection attacks. This can be achieved by restricting which resources (JavaScript, CSS, Images, etc.) can be loaded on your website.
 
+### Prerequisites
+* [Node.js](https://nodejs.org/) v18.16.0 or higher
+
+### Installation
+```bash
+since you have installed node.js no additional installation required
+```
+
+### Run
+```bash
+npm start
+```
+open [http://localhost:8000](http://localhost:8000)
+
 ### General Resources
 * [Content-Security-Policy](https://content-security-policy.com/)
 * [OWASP Content Security Policy Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/Content_Security_Policy_Cheat_Sheet.html)
