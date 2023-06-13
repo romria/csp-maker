@@ -57,6 +57,8 @@
   <fieldset>
     <legend>Enable your website's features:</legend>
 
+    <b>Analytic tools</b>
+
     <div class="row">
       <input type="checkbox" id="gtm" name="gtm">
       <label for="gtm">Google Tag Manager</label>
@@ -108,11 +110,123 @@
       <label for="gAdsRemarketing">Google Ads remarketing tag</label>
     </div>
 
+    <div class="row tab">
+      <input type="checkbox" id="floodl" name="floodl">
+      <label for="floodl">Floodlight for all users</label>
+    </div>
+
+    <div class="row tab">
+      <input type="checkbox" id="floodCS" name="floodCS">
+      <label for="floodCS">Floodlight for "custom scripts" beacons in Tag Manager</label>
+    </div>
+
+    <div class="row tab">
+      <label for="floodID">Floodlight advertiser ID</label>
+      <input type="text" id="floodID" name="floodID" placeholder="* if not specified">
+    </div>
+
+    <div class="row tab">
+      <input type="checkbox" id="floodImg" name="floodImg">
+      <label for="floodImg">Floodlight for image tags</label>
+    </div>
+
+    <div class="row tab">
+      <input type="checkbox" id="floodCM" name="floodCM">
+      <label for="floodCM">Floodlight consent mode</label>
+    </div>
+
+    <div class="row">
+      <input type="checkbox" id="fbPixel" name="fbPixel">
+      <label for="fbPixel">Facebook Pixel</label>
+    </div>
+
+    <div class="row">
+      <input type="checkbox" id="mixpanel" name="mixpanel">
+      <label for="mixpanel">Mixpanel</label>
+    </div>
+
+    <div class="row">
+      <input type="checkbox" id="lo" name="lo">
+      <label for="lo">Lucky Orange</label>
+    </div>
+
+    <div class="row">
+      <input type="checkbox" id="intercom" name="intercom">
+      <label for="intercom">Intercom</label>
+    </div>
+
+    <div class="row">
+      <input type="checkbox" id="ctm" name="ctm">
+      <label for="ctm">CallTrackingMetrics</label>
+    </div>
+
     <!--    <div>-->
     <!--      <input type="checkbox" id="_" name="">-->
     <!--      <label for=""></label>-->
     <!--    </div>-->
 
+    <!--    <div>-->
+    <!--      <input type="checkbox" id="_" name="">-->
+    <!--      <label for=""></label>-->
+    <!--    </div>-->
+
+    <b>Frameworks</b>
+
+    <div class="row">
+      <input type="checkbox" id="gatsby" name="gatsby">
+      <label for="gatsby">Gatsby</label>
+    </div>
+
+<!--    External API-->
+
+<!--    <div>-->
+<!--      <input type="checkbox" id="awsS3" name="awsS3">-->
+<!--      <label for="awsS3">AWS S3</label>-->
+<!--    </div>-->
+
+    <b>Error & performance tracking</b>
+
+    <div class="row">
+      <input type="checkbox" id="bugsnag" name="bugsnag">
+      <label for="bugsnag">BugSnag</label>
+    </div>
+
+    <div class="row">
+      <input type="checkbox" id="newrelic" name="newrelic">
+      <label for="newrelic">New Relic</label>
+    </div>
+
+    <div class="row">
+      <input type="checkbox" id="sentry" name="sentry">
+      <label for="sentry">Sentry</label>
+    </div>
+
+    <!--    <div>-->
+    <!--      <input type="checkbox" id="_" name="">-->
+    <!--      <label for=""></label>-->
+    <!--    </div>-->
+
+    <!--    <div>-->
+    <!--      <input type="checkbox" id="_" name="">-->
+    <!--      <label for=""></label>-->
+    <!--    </div>-->
+
+    <b>Misc</b>
+
+    <div class="row">
+      <input type="checkbox" id="gFonts" name="gFonts">
+      <label for="gFonts">Google Fonts</label>
+    </div>
+
+    <div class="row">
+      <input type="checkbox" id="gMaps" name="gMaps">
+      <label for="gMaps">Google Maps API</label>
+    </div>
+
+    <div class="row">
+      <input type="checkbox" id="legitScript" name="legitScript">
+      <label for="legitScript">LegitScript</label>
+    </div>
 
   </fieldset>
 
@@ -126,6 +240,9 @@
       'frame-src', 'child-src', 'frame-ancestors',
       'prefetch-src', 'upgrade-insecure-requests', 'block-all-mixed-content'
     ];
+    const customIDs = {
+      floodID: '*',
+    }
     const settingsObj = {
       gtm: { // ToDo: add unsafe-inline note: https://developers.google.com/tag-platform/tag-manager/web/csp#enable_the_container_tag_to_use_csp
         'script-src': ["'unsafe-inline'", 'https://www.googletagmanager.com'],
@@ -256,13 +373,13 @@
         'img-src': ['https://www.google.com'],
         'frame-src': ['https://bid.g.doubleclick.net'],
       },
-      /* Floodlight users ToDo: add ID text input */
+      /* Floodlight tag ToDo: add ID text input */
       floodl: { // https://developers.google.com/tag-platform/tag-manager/web/csp#floodlight
-        'img-src': ['https://<FLOODLIGHT-CONFIG-ID>.fls.doubleclick.net'],
+        'img-src': [{var: 'floodID', getVal: (v) => `https://${v}.fls.doubleclick.net`}],
       },
       /* "custom scripts" beacons in Tag Manager */
       floodCS: {
-        'frame-src': ['https://<FLOODLIGHT-CONFIG-ID>.fls.doubleclick.net'],
+        'frame-src': [{var: 'floodID', getVal: (v) => `https://${v}.fls.doubleclick.net`}],
       },
       /* image tags */
       floodImg: {
@@ -272,8 +389,92 @@
       floodCM: { // https://developers.google.com/tag-platform/devguides/consent
         'img-src': ['https://ade.googlesyndication.com'],
       },
+      /* facebook pixel */
+      fbPixel: {
+        'script-src': ['https://connect.facebook.net'],
+        'img-src': ['https://facebook.com', 'https://www.facebook.com'],
+        'connect-src': ['https://www.facebook.com/tr'],
+        'form-action': ['https://connect.facebook.net'],
+        'child-src': ['https://www.facebook.com', 'https://staticxx.facebook.com'],
+      },
+      /* Mixpanel */
+      mixpanel: {
+        'connect-src': ['https://api.mixpanel.com', 'https://api-js.mixpanel.com'],
+        'img-src': ['https://cdn.mxpnl.com'],
+      },
+      /* Lucky Orange */
+      lo: { // https://help.luckyorange.com/article/228-using-lucky-orange-with-a-csp
+        'script-src': ['https://d10lpsik1i8c69.cloudfront.net'],
+        'img-src': ['https://d10lpsik1i8c69.cloudfront.net'],
+        'worker-src': ['blob:'],
+        'connect-src': ['https://settings.luckyorange.net', 'wss://*.visitors.live', 'https://pubsub.googleapis.com', 'https://api.luckyorange.com'],
+      },
+      /* Intercom */
+      intercom: { // https://www.intercom.com/help/en/articles/3894-using-intercom-with-content-security-policy
+        'script-src': ['https://js.intercomcdn.com', 'https://app.intercom.io', 'https://widget.intercom.io'],
+        'style-src': ["'unsafe-inline'"],
+        'img-src': [
+          'blob:', 'data:', 'https://js.intercomcdn.com', 'https://static.intercomassets.com', 'https://downloads.intercomcdn.com',
+          'https://downloads.intercomcdn.eu', 'https://downloads.au.intercomcdn.com', 'https://uploads.intercomusercontent.com',
+          'https://gifs.intercomcdn.com', 'https://video-messages.intercomcdn.com', 'https://messenger-apps.intercom.io',
+          'https://messenger-apps.eu.intercom.io', 'https://messenger-apps.au.intercom.io', 'https://*.intercom-attachments-1.com',
+          'https://*.intercom-attachments.eu', 'https://*.au.intercom-attachments.com', 'https://*.intercom-attachments-2.com',
+          'https://*.intercom-attachments-3.com', 'https://*.intercom-attachments-4.com', 'https://*.intercom-attachments-5.com',
+          'https://*.intercom-attachments-6.com', 'https://*.intercom-attachments-7.com', 'https://*.intercom-attachments-8.com',
+          'https://*.intercom-attachments-9.com', 'https://static.intercomassets.eu', 'https://static.au.intercomassets.com'
+        ],
+        'font-src': ['https://js.intercomcdn.com', 'https://fonts.intercomcdn.com'],
+        'child-src': ['https://intercom-sheets.com', 'https://www.intercom-reporting.com', 'https://www.youtube.com', 'https://player.vimeo.com', 'https://fast.wistia.net'],
+        'connect-src': [
+          'https://via.intercom.io', 'https://api.intercom.io', 'https://api.au.intercom.io', 'https://api.eu.intercom.io',
+          'https://api-iam.intercom.io', 'https://api-iam.eu.intercom.io', 'https://api-iam.au.intercom.io', 'https://api-ping.intercom.io',
+          'https://nexus-websocket-a.intercom.io', 'wss://nexus-websocket-a.intercom.io', 'https://nexus-websocket-b.intercom.io',
+          'wss://nexus-websocket-b.intercom.io', 'https://nexus-europe-websocket.intercom.io', 'wss://nexus-europe-websocket.intercom.io',
+          'https://nexus-australia-websocket.intercom.io', 'wss://nexus-australia-websocket.intercom.io', 'https://uploads.intercomcdn.com',
+          'https://uploads.intercomcdn.eu', 'https://uploads.au.intercomcdn.com', 'https://uploads.intercomusercontent.com'
+        ],
+        'form-action': ['https://intercom.help', 'https://api-iam.intercom.io', 'https://api-iam.eu.intercom.io', 'https://api-iam.au.intercom.io'],
+        'media-src': ['https://js.intercomcdn.com'],
+      },
+      ctm: {
+        'script-src': ['https://*.tctm.co'],
+        'connect-src': ['https://*.tctm.co'],
+      },
+
+      /* BugSnag */
+      bugsnag: { // https://docs.bugsnag.com/platforms/javascript/faq/#can-i-use-bugsnag-with-csp
+        'connect-src': ['*.bugsnag.com'],
+        'script-src': ['https://d2wy8f7a9ursnm.cloudfront.net'],
+      },
+      /* New Relic ToDo: try out */
+      newrelic: { // https://docs.newrelic.com/docs/browser/new-relic-browser/getting-started/compatibility-requirements-browser-monitoring/
+        'script-src': ["'unsafe-inline'", 'https://js-agent.newrelic.com', 'https://*.nr-data.net'],
+        'connect-src': ['https://*.nr-data.net'],
+      },
+      sentry: {
+        'script-src': ['https://cdn.ravenjs.com'],
+        'connect-src': ['https://sentry.io'],
+      },
       gatsby: {
         'script-src': ["'unsafe-inline'"],
+      },
+
+      gFonts: {
+        'style-src': ['https://fonts.googleapis.com'],
+        'font-src': ['https://fonts.gstatic.com'],
+      },
+      gMaps: { // ToDo: https://developers.google.com/maps/documentation/javascript/content-security-policy
+
+      },
+      stripe: { // ToDo
+
+      },
+      slack: { // ToDo
+
+      },
+      legitScript: {
+        'script-src': ['https://static.legitscript.com'],
+        'img-src': ['https://static.legitscript.com'],
       },
     };
     Object.fromEntries = arr => Object.assign({}, ...Array.from(arr, k => ({[k]: false})));
@@ -284,6 +485,14 @@
     let cspObj = {};
     let cspStr = '';
     const mergeArraysUniq = (a, b) => a.concat(b.filter(item => a.indexOf(item) === -1));
+    const generateTargetValues = (arr) => {
+      return arr.map(v => {
+        if (typeof v === 'object' && v.var && v.getVal) {
+          return v.getVal(customIDs[v.var]);
+        }
+        return v;
+      })
+    }
     function generateCSPObj() {
       const cspObj = {
         'script-src': ["'self'"], // "'unsafe-inline'", "'unsafe-eval'"
@@ -313,7 +522,7 @@
         const targetKeys = Object.keys(targetSettings);
 
         targetKeys.forEach((tKey) => {
-          const targetValues = targetSettings[tKey];
+          const targetValues = generateTargetValues(targetSettings[tKey]);
           cspObj[tKey] = mergeArraysUniq(cspObj[tKey], targetValues);
         });
       });
@@ -353,6 +562,11 @@
         }
       }
     }));
+
+    document.getElementById("floodID").addEventListener('input', (e) => {
+      customIDs.floodID = e.target.value || '*';
+      generateCSP();
+    });
 
     document.getElementById("btnCopy").onclick = () => {
       navigator.clipboard.writeText(cspStr);
