@@ -39,7 +39,7 @@
     id="result"
     class="textArea"
     readonly
-    rows="20"
+    rows="12"
   ></textarea>
 
   <div class="buttons">
@@ -199,6 +199,29 @@
     <div class="row">
       <input type="checkbox" id="sentry" name="sentry">
       <label for="sentry">Sentry</label>
+    </div>
+
+    <b>Payments</b>
+
+    <div class="row">
+      <input type="checkbox" id="stripe" name="stripe">
+      <label for="stripe">Stripe.js basic rules</label>
+    </div>
+    <div class="row">
+      <input type="checkbox" id="stripeRedirect" name="stripeRedirect">
+      <label for="stripeRedirect">Stripe with redirect functions (3D Secure, Sofort, etc.)</label>
+    </div>
+    <div class="row">
+      <input type="checkbox" id="stripeAddress" name="stripeAddress">
+      <label for="stripeAddress">Stripe with the Address Element (Google Maps API key)</label>
+    </div>
+    <div class="row">
+      <input type="checkbox" id="stripeCheckout" name="stripeCheckout">
+      <label for="stripeCheckout">Stripe Checkout</label>
+    </div>
+    <div class="row">
+      <input type="checkbox" id="stripeConnect" name="stripeConnect">
+      <label for="stripeConnect">Stripe Connect</label>
     </div>
 
     <!--    <div>-->
@@ -459,14 +482,36 @@
         'script-src': ["'unsafe-inline'"],
       },
 
+      stripe: { // https://stripe.com/docs/security/guide#content-security-policy
+        'script-src': ['https://js.stripe.com'],
+        'connect-src': ['https://api.stripe.com'],
+        'frame-src': ['https://js.stripe.com'],
+      },
+      stripeRedirect: {
+        'frame-src': ['https://hooks.stripe.com'],
+      },
+      stripeAddress: { // ToDo: https://developers.google.com/maps/documentation/javascript/content-security-policy
+        'script-src': ['https://maps.googleapis.com'],
+        'connect-src': ['https://maps.googleapis.com'],
+      },
+      // ToDo: https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Security-Policy/require-trusted-types-for
+      stripeCheckout: { // https://stripe.com/docs/security/guide#content-security-policy
+        'script-src': ['https://checkout.stripe.com'],
+        'connect-src': ['https://checkout.stripe.com'],
+        'frame-src': ['https://checkout.stripe.com'],
+        'img-src': ['https://*.stripe.com'],
+      },
+      stripeConnect: {
+        'script-src': ['https://connect-js.stripe.com', 'https://js.stripe.com'],
+        'style-src': ["'unsafe-inline'"],
+        'frame-src': ['https://connect-js.stripe.com', 'https://b.stripecdn.com'],
+      },
+
       gFonts: {
         'style-src': ['https://fonts.googleapis.com'],
         'font-src': ['https://fonts.gstatic.com'],
       },
       gMaps: { // ToDo: https://developers.google.com/maps/documentation/javascript/content-security-policy
-
-      },
-      stripe: { // ToDo
 
       },
       slack: { // ToDo
