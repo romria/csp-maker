@@ -1,4 +1,4 @@
-### Content Security Policy generator
+### Content Security Policy builder
 
 Content Security Policy (CSP) is a security layer that helps to prevent certain types of attacks, including Cross-Site Scripting (XSS) and data injection attacks. This can be achieved by restricting which resources (JavaScript, CSS, Images, etc.) can be loaded on your website.
 
