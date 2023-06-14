@@ -31,6 +31,12 @@
       .tab2 {
         margin: 4px 0 4px 24px;
       }
+      .checkbox {
+        cursor: pointer;
+      }
+      .label {
+        cursor: pointer;
+      }
     </style>
   </head>
   <body>
@@ -57,214 +63,165 @@
   <fieldset>
     <legend>Enable your website's features:</legend>
 
-    <b>Analytic tools</b>
-
+    <b>Analytics</b>
     <div class="row">
-      <input type="checkbox" id="gtm" name="gtm">
-      <label for="gtm">Google Tag Manager</label>
+      <input class="checkbox" type="checkbox" id="gtm" name="gtm">
+      <label class="label" for="gtm">Google Tag Manager</label>
     </div>
-
     <div class="row tab">
-      <input type="checkbox" id="gtmCustomVars" name="gtmCustomVars">
-      <label for="gtmCustomVars">Google Tag Custom Variables</label>
+      <input class="checkbox" type="checkbox" id="gtmCustomVars" name="gtmCustomVars">
+      <label class="label" for="gtmCustomVars">Google Tag Custom Variables</label>
     </div>
-
     <div class="row tab">
-      <input type="checkbox" id="gtmPreviewMode" name="gtmPreviewMode">
-      <label for="gtmPreviewMode">Google Tag Manager's Preview Mode</label>
+      <input class="checkbox" type="checkbox" id="gtmPreviewMode" name="gtmPreviewMode">
+      <label class="label" for="gtmPreviewMode">Google Tag Manager's Preview Mode</label>
     </div>
-
     <div class="row tab">
-      <input type="checkbox" id="ga4" name="ga4">
-      <label for="ga4">Google Analytics 4 tag</label>
+      <input class="checkbox" type="checkbox" id="ga4" name="ga4">
+      <label class="label" for="ga4">Google Analytics 4 tag</label>
     </div>
-
     <div class="row tab">
-      <input type="checkbox" id="ga4signal" name="ga4signal">
-      <label for="ga4signal">Google Analytics 4 deployment using Google Signals</label>
+      <input class="checkbox" type="checkbox" id="ga4signal" name="ga4signal">
+      <label class="label" for="ga4signal">Google Analytics 4 deployment using Google Signals</label>
     </div>
-
 <!--    ToDo: make ga4signal dependent-->
     <div class="row tab2">
-      <input type="checkbox" id="gTLD" name="gTLD">
-      <label for="gTLD">Include all Google's TLD</label>
+      <input class="checkbox" type="checkbox" id="gTLD" name="gTLD">
+      <label class="label" for="gTLD">Include all Google's TLD</label>
     </div>
-
     <div class="row tab">
-      <input type="checkbox" id="gaUniv" name="gaUniv">
-      <label for="gaUniv">Universal Analytics (Google Analytics) tag</label>
+      <input class="checkbox" type="checkbox" id="gaUniv" name="gaUniv">
+      <label class="label" for="gaUniv">Universal Analytics (Google Analytics) tag</label>
     </div>
-
     <div class="row tab">
-      <input type="checkbox" id="gOpt" name="gOpt">
-      <label for="gOpt">Google Optimize tag</label>
+      <input class="checkbox" type="checkbox" id="gOpt" name="gOpt">
+      <label class="label" for="gOpt">Google Optimize tag</label>
     </div>
-
     <div class="row tab">
-      <input type="checkbox" id="gAds" name="gAds">
-      <label for="gAds">Google Ads conversion tag</label>
+      <input class="checkbox" type="checkbox" id="gAds" name="gAds">
+      <label class="label" for="gAds">Google Ads conversion tag</label>
     </div>
-
     <div class="row tab">
-      <input type="checkbox" id="gAdsRemarketing" name="gAdsRemarketing">
-      <label for="gAdsRemarketing">Google Ads remarketing tag</label>
+      <input class="checkbox" type="checkbox" id="gAdsRemarketing" name="gAdsRemarketing">
+      <label class="label" for="gAdsRemarketing">Google Ads remarketing tag</label>
     </div>
-
     <div class="row tab">
-      <input type="checkbox" id="floodl" name="floodl">
-      <label for="floodl">Floodlight for all users</label>
+      <input class="checkbox" type="checkbox" id="floodl" name="floodl">
+      <label class="label" for="floodl">Floodlight for all users</label>
     </div>
-
     <div class="row tab">
-      <input type="checkbox" id="floodCS" name="floodCS">
-      <label for="floodCS">Floodlight for "custom scripts" beacons in Tag Manager</label>
+      <input class="checkbox" type="checkbox" id="floodCS" name="floodCS">
+      <label class="label" for="floodCS">Floodlight for "custom scripts" beacons in Tag Manager</label>
     </div>
-
     <div class="row tab">
       <label for="floodID">Floodlight advertiser ID</label>
-      <input type="text" id="floodID" name="floodID" placeholder="* if not specified (optional)">
+      <input type="text" id="floodID" name="floodID" placeholder="* if not specified">
     </div>
-
     <div class="row tab">
-      <input type="checkbox" id="floodImg" name="floodImg">
-      <label for="floodImg">Floodlight for image tags</label>
+      <input class="checkbox" type="checkbox" id="floodImg" name="floodImg">
+      <label class="label" for="floodImg">Floodlight for image tags</label>
     </div>
-
     <div class="row tab">
-      <input type="checkbox" id="floodCM" name="floodCM">
-      <label for="floodCM">Floodlight consent mode</label>
+      <input class="checkbox" type="checkbox" id="floodCM" name="floodCM">
+      <label class="label" for="floodCM">Floodlight consent mode</label>
     </div>
-
     <div class="row">
-      <input type="checkbox" id="fbPixel" name="fbPixel">
-      <label for="fbPixel">Facebook Pixel</label>
+      <input class="checkbox" type="checkbox" id="fbPixel" name="fbPixel">
+      <label class="label" for="fbPixel">Facebook Pixel</label>
     </div>
-
     <div class="row">
-      <input type="checkbox" id="mixpanel" name="mixpanel">
-      <label for="mixpanel">Mixpanel</label>
+      <input class="checkbox" type="checkbox" id="mixpanel" name="mixpanel">
+      <label class="label" for="mixpanel">Mixpanel</label>
     </div>
-
     <div class="row">
-      <input type="checkbox" id="lo" name="lo">
-      <label for="lo">Lucky Orange</label>
+      <input class="checkbox" type="checkbox" id="lo" name="lo">
+      <label class="label" for="lo">Lucky Orange</label>
+    </div>
+    <div class="row">
+      <input class="checkbox" type="checkbox" id="hotjar" name="hotjar">
+      <label class="label" for="hotjar">Hotjar</label>
     </div>
 
     <b>Communication & Customer Support</b>
     <div class="row">
-      <input type="checkbox" id="intercom" name="intercom">
-      <label for="intercom">Intercom</label>
+      <input class="checkbox" type="checkbox" id="intercom" name="intercom">
+      <label class="label" for="intercom">Intercom</label>
     </div>
     <div class="row">
-      <input type="checkbox" id="chatlio" name="chatlio">
-      <label for="chatlio">Chatlio</label>
+      <input class="checkbox" type="checkbox" id="chatlio" name="chatlio">
+      <label class="label" for="chatlio">Chatlio</label>
     </div>
     <div class="row">
-      <input type="checkbox" id="zendesk" name="zendesk">
-      <label for="zendesk">Zendesk Widget</label>
+      <input class="checkbox" type="checkbox" id="zendesk" name="zendesk">
+      <label class="label" for="zendesk">Zendesk Widget</label>
     </div>
     <div class="row tab">
       <label for="zendeskSubdomain">Zendesk Subdomain</label>
-      <input type="text" id="zendeskSubdomain" name="zendeskSubdomain" placeholder="* if not specified (optional)">
+      <input type="text" id="zendeskSubdomain" name="zendeskSubdomain" placeholder="* if not specified">
     </div>
     <div class="row">
-      <input type="checkbox" id="ctm" name="ctm">
-      <label for="ctm">CallTrackingMetrics</label>
+      <input class="checkbox" type="checkbox" id="ctm" name="ctm">
+      <label class="label" for="ctm">CallTrackingMetrics</label>
     </div>
     <div class="row tab">
       <label for="ctmID">CTM ID</label>
-      <input type="text" id="ctmID" name="ctmID" placeholder="* if not specified (optional)">
+      <input type="text" id="ctmID" name="ctmID" placeholder="* if not specified">
     </div>
-
-    <!--    <div>-->
-    <!--      <input type="checkbox" id="_" name="">-->
-    <!--      <label for=""></label>-->
-    <!--    </div>-->
-
-    <!--    <div>-->
-    <!--      <input type="checkbox" id="_" name="">-->
-    <!--      <label for=""></label>-->
-    <!--    </div>-->
 
     <b>Frameworks</b>
-
     <div class="row">
-      <input type="checkbox" id="gatsby" name="gatsby">
-      <label for="gatsby">Gatsby</label>
+      <input class="checkbox" type="checkbox" id="gatsby" name="gatsby">
+      <label class="label" for="gatsby">Gatsby</label>
     </div>
-
-<!--    External API-->
-
-<!--    <div>-->
-<!--      <input type="checkbox" id="awsS3" name="awsS3">-->
-<!--      <label for="awsS3">AWS S3</label>-->
-<!--    </div>-->
 
     <b>Error & performance tracking</b>
-
     <div class="row">
-      <input type="checkbox" id="bugsnag" name="bugsnag">
-      <label for="bugsnag">BugSnag</label>
+      <input class="checkbox" type="checkbox" id="bugsnag" name="bugsnag">
+      <label class="label" for="bugsnag">BugSnag</label>
     </div>
-
     <div class="row">
-      <input type="checkbox" id="newrelic" name="newrelic">
-      <label for="newrelic">New Relic</label>
+      <input class="checkbox" type="checkbox" id="newrelic" name="newrelic">
+      <label class="label" for="newrelic">New Relic</label>
     </div>
-
     <div class="row">
-      <input type="checkbox" id="sentry" name="sentry">
-      <label for="sentry">Sentry</label>
+      <input class="checkbox" type="checkbox" id="sentry" name="sentry">
+      <label class="label" for="sentry">Sentry</label>
     </div>
 
     <b>Payments</b>
-
     <div class="row">
-      <input type="checkbox" id="stripe" name="stripe">
-      <label for="stripe">Stripe.js basic rules</label>
+      <input class="checkbox" type="checkbox" id="stripe" name="stripe">
+      <label class="label" for="stripe">Stripe.js basic rules</label>
     </div>
     <div class="row">
-      <input type="checkbox" id="stripeRedirect" name="stripeRedirect">
-      <label for="stripeRedirect">Stripe with redirect functions (3D Secure, Sofort, etc.)</label>
+      <input class="checkbox" type="checkbox" id="stripeRedirect" name="stripeRedirect">
+      <label class="label" for="stripeRedirect">Stripe with redirect functions (3D Secure, Sofort, etc.)</label>
     </div>
     <div class="row">
-      <input type="checkbox" id="stripeAddress" name="stripeAddress">
-      <label for="stripeAddress">Stripe with the Address Element (Google Maps API key)</label>
+      <input class="checkbox" type="checkbox" id="stripeAddress" name="stripeAddress">
+      <label class="label" for="stripeAddress">Stripe with the Address Element (Google Maps API key)</label>
     </div>
     <div class="row">
-      <input type="checkbox" id="stripeCheckout" name="stripeCheckout">
-      <label for="stripeCheckout">Stripe Checkout</label>
+      <input class="checkbox" type="checkbox" id="stripeCheckout" name="stripeCheckout">
+      <label class="label" for="stripeCheckout">Stripe Checkout</label>
     </div>
     <div class="row">
-      <input type="checkbox" id="stripeConnect" name="stripeConnect">
-      <label for="stripeConnect">Stripe Connect</label>
+      <input class="checkbox" type="checkbox" id="stripeConnect" name="stripeConnect">
+      <label class="label" for="stripeConnect">Stripe Connect</label>
     </div>
-
-    <!--    <div>-->
-    <!--      <input type="checkbox" id="_" name="">-->
-    <!--      <label for=""></label>-->
-    <!--    </div>-->
-
-    <!--    <div>-->
-    <!--      <input type="checkbox" id="_" name="">-->
-    <!--      <label for=""></label>-->
-    <!--    </div>-->
 
     <b>Misc</b>
-
     <div class="row">
-      <input type="checkbox" id="gFonts" name="gFonts">
-      <label for="gFonts">Google Fonts</label>
+      <input class="checkbox" type="checkbox" id="gFonts" name="gFonts">
+      <label class="label" for="gFonts">Google Fonts</label>
     </div>
-
     <div class="row">
-      <input type="checkbox" id="gMaps" name="gMaps">
-      <label for="gMaps">Google Maps</label>
+      <input class="checkbox" type="checkbox" id="gMaps" name="gMaps">
+      <label class="label" for="gMaps">Google Maps</label>
     </div>
-
     <div class="row">
-      <input type="checkbox" id="legitScript" name="legitScript">
-      <label for="legitScript">LegitScript</label>
+      <input class="checkbox" type="checkbox" id="legitScript" name="legitScript">
+      <label class="label" for="legitScript">LegitScript</label>
     </div>
 
   </fieldset>
@@ -292,26 +249,23 @@
       gtmCustomVars: { // https://developers.google.com/tag-platform/tag-manager/web/csp#custom_javascript_variables
         'script-src': ["'unsafe-inline'"],
       },
-      /* Google Tag Manager's Preview Mode */
       gtmPreviewMode: { // https://developers.google.com/tag-platform/tag-manager/web/csp#preview_mode
         'script-src': ['https://tagmanager.google.com'],
         'style-src': ['https://tagmanager.google.com', 'https://fonts.googleapis.com'],
         'img-src': ['https://ssl.gstatic.com', 'https://www.gstatic.com'],
         'font-src': ['https://fonts.gstatic.com', 'data:'],
       },
-      /* Google Analytics 4 tag */
       ga4: { // https://developers.google.com/tag-platform/tag-manager/web/csp#google_analytics_4_google_analytics
         'script-src': ['https://*.googletagmanager.com'],
         'img-src': ['https://*.google-analytics.com', 'https://*.googletagmanager.com'],
         'connect-src': ['https://*.google-analytics.com', 'https://*.analytics.google.com', 'https://*.googletagmanager.com'],
       },
-      /* Google Analytics 4 deployments using Google Signals */
       ga4signal: { // For Google Analytics 4 (Google Analytics) deployments using Google Signals, the CSP must include the following directives:
         'script-src': ['https://*.googletagmanager.com'],
         'img-src': ['https://*.google-analytics.com', 'https://*.analytics.google.com', 'https://*.googletagmanager.com', 'https://*.g.doubleclick.net', 'https://*.google.com'], // incl 'https://*.google.<TLD>'
         'connect-src': ['https://*.google-analytics.com', 'https://*.analytics.google.com', 'https://*.googletagmanager.com', 'https://*.g.doubleclick.net', 'https://*.google.com'], // 'https://*.google.<TLD>'
       },
-      gTLD: { // ToDo: TLD list https://www.google.com/supported_domains
+      gTLD: {
         'img-src': [
           'https://*.google.ad', 'https://*.google.ae', 'https://*.google.com.af', 'https://*.google.com.ag',
           'https://*.google.al', 'https://*.google.am', 'https://*.google.co.ao', 'https://*.google.com.ar', 'https://*.google.as',
@@ -393,44 +347,35 @@
           'https://*.google.co.zm', 'https://*.google.co.zw', 'https://*.google.cat'
         ],
       },
-      /* Universal Analytics (Google Analytics) tag */
       gaUniv: { // https://developers.google.com/tag-platform/tag-manager/web/csp#universal_analytics_google_analytics
         'script-src': ['https://www.google-analytics.com', 'https://ssl.google-analytics.com'],
         'img-src': ['https://www.google-analytics.com'],
         'connect-src': ['https://www.google-analytics.com'],
       },
-      /* Google Optimize tag */
       gOpt: { // https://developers.google.com/tag-platform/tag-manager/web/csp#google_optimize
         'script-src': ['https://www.google-analytics.com'],
       },
-      /* Google Ads conversion tag */
       gAds: {
         'script-src': ['https://www.googleadservices.com', 'https://www.google.com'],
         'img-src': ['https://googleads.g.doubleclick.net', 'https://www.google.com'],
       },
-      /* Google Ads remarketing tag */
       gAdsRemarketing: {
         'script-src': ['https://www.googleadservices.com', 'https://googleads.g.doubleclick.net', 'https://www.google.com'],
         'img-src': ['https://www.google.com'],
         'frame-src': ['https://bid.g.doubleclick.net'],
       },
-      /* Floodlight tag ToDo: add ID text input */
       floodl: { // https://developers.google.com/tag-platform/tag-manager/web/csp#floodlight
         'img-src': [{var: 'floodID', getVal: (v) => `https://${v}.fls.doubleclick.net`}],
       },
-      /* "custom scripts" beacons in Tag Manager */
       floodCS: {
         'frame-src': [{var: 'floodID', getVal: (v) => `https://${v}.fls.doubleclick.net`}],
       },
-      /* image tags */
       floodImg: {
         'img-src': ['https://ad.doubleclick.net'],
       },
-      /* consent mode */
       floodCM: { // https://developers.google.com/tag-platform/devguides/consent
         'img-src': ['https://ade.googlesyndication.com'],
       },
-      /* facebook pixel */
       fbPixel: {
         'script-src': ['https://connect.facebook.net'],
         'img-src': ['https://facebook.com', 'https://www.facebook.com'],
@@ -438,20 +383,24 @@
         'form-action': ['https://connect.facebook.net'],
         'child-src': ['https://www.facebook.com', 'https://staticxx.facebook.com'],
       },
-      /* Mixpanel */
       mixpanel: {
         'connect-src': ['https://api.mixpanel.com', 'https://api-js.mixpanel.com'],
         'img-src': ['https://cdn.mxpnl.com'],
       },
-      /* Lucky Orange */
       lo: { // https://help.luckyorange.com/article/228-using-lucky-orange-with-a-csp
         'script-src': ['https://d10lpsik1i8c69.cloudfront.net'],
         'img-src': ['https://d10lpsik1i8c69.cloudfront.net'],
         'worker-src': ['blob:'],
         'connect-src': ['https://settings.luckyorange.net', 'wss://*.visitors.live', 'https://pubsub.googleapis.com', 'https://api.luckyorange.com'],
       },
+      hotjar: { // https://help.hotjar.com/hc/en-us/articles/115011640307-Content-Security-Policies
+        'script-src': ["'unsafe-inline'", 'https://static.hotjar.com', 'https://script.hotjar.com'],
+        'img-src': ['https://static.hotjar.com', 'https://script.hotjar.com'],
+        'connect-src': ['https://*.hotjar.com', 'https://*.hotjar.io', 'wss://*.hotjar.com'],
+        'font-src': ['https://script.hotjar.com'],
+        'style-src': ["'unsafe-inline'", 'https://static.hotjar.com', 'https://script.hotjar.com']
+      },
 
-      /* Intercom */
       intercom: { // https://www.intercom.com/help/en/articles/3894-using-intercom-with-content-security-policy
         'script-src': ['https://js.intercomcdn.com', 'https://app.intercom.io', 'https://widget.intercom.io'],
         'style-src': ["'unsafe-inline'"],
@@ -498,12 +447,10 @@
         'connect-src': [{var: 'ctmID', getVal: (v) => `https://${v}.tctm.co`}],
       },
 
-      /* BugSnag */
       bugsnag: { // https://docs.bugsnag.com/platforms/javascript/faq/#can-i-use-bugsnag-with-csp
         'connect-src': ['*.bugsnag.com'],
         'script-src': ['https://d2wy8f7a9ursnm.cloudfront.net'],
       },
-      /* New Relic ToDo: try out */
       newrelic: { // https://docs.newrelic.com/docs/browser/new-relic-browser/getting-started/compatibility-requirements-browser-monitoring/
         'script-src': ["'unsafe-inline'", 'https://js-agent.newrelic.com', 'https://*.nr-data.net'],
         'connect-src': ['https://*.nr-data.net'],
@@ -524,7 +471,7 @@
       stripeRedirect: {
         'frame-src': ['https://hooks.stripe.com'],
       },
-      stripeAddress: { // ToDo: https://developers.google.com/maps/documentation/javascript/content-security-policy
+      stripeAddress: { // https://developers.google.com/maps/documentation/javascript/content-security-policy
         'script-src': ["'unsafe-inline'", "'unsafe-eval'", 'https://*.googleapis.com', 'https://*.gstatic.com', '*.google.com', 'https://*.ggpht.com', '*.googleusercontent.com', 'blob:'],
         'img-src': ['https://*.googleapis.com', 'https://*.gstatic.com', '*.google.com', '*.googleusercontent.com', 'data:'],
         'frame-src': ['*.google.com'],
@@ -549,7 +496,7 @@
         'style-src': ['https://fonts.googleapis.com'],
         'font-src': ['https://fonts.gstatic.com'],
       },
-      gMaps: { // ToDo: https://developers.google.com/maps/documentation/javascript/content-security-policy
+      gMaps: { // https://developers.google.com/maps/documentation/javascript/content-security-policy
         'script-src': ["'unsafe-inline'", "'unsafe-eval'", 'https://*.googleapis.com', 'https://*.gstatic.com', '*.google.com', 'https://*.ggpht.com', '*.googleusercontent.com', 'blob:'],
         'img-src': ['https://*.googleapis.com', 'https://*.gstatic.com', '*.google.com', '*.googleusercontent.com', 'data:'],
         'frame-src': ['*.google.com'],
@@ -584,7 +531,7 @@
     }
     function generateCSPObj() {
       const cspObj = {
-        'script-src': ["'self'"], // "'unsafe-inline'", "'unsafe-eval'"
+        'script-src': ["'self'"],
         'style-src': ["'self'"],
         'img-src': ["'self'"],
         'font-src': ["'self'"],
@@ -592,7 +539,7 @@
         'connect-src': ["'self'"],
         'object-src': ["'self'"],
         'media-src': ["'self'"],
-        'worker-src': ["'self'"], // "blob:"
+        'worker-src': ["'self'"],
         'form-action': ["'self'"],
         'base-uri': ["'self'"],
         'frame-src': ["'self'"],
@@ -639,8 +586,8 @@
       document.getElementById("result").value = cspStr;
     }
 
-    const cboxes = document.querySelectorAll('input[type="checkbox"]');
-    cboxes.forEach(cb => cb.addEventListener('change', function({target:{id, checked}}) {
+    // Change events for feature toggling
+    document.querySelectorAll('input[type="checkbox"]').forEach(cb => cb.addEventListener('change', function({target:{id, checked}}) {
       if (boxValues.hasOwnProperty(id)) {
         switch(id) {
           case 'gtm':
@@ -658,6 +605,7 @@
       generateCSP();
     }));
 
+    // Copy to clipboard
     document.getElementById("btnCopy").onclick = () => {
       navigator.clipboard.writeText(cspStr);
     }
