@@ -7,7 +7,7 @@ Content Security Policy (CSP) is a security layer that helps to prevent certain 
 
 ### Installation
 ```bash
-since you have installed node.js no additional installation required
+npm install
 ```
 
 ### Run
@@ -30,6 +30,6 @@ open [http://localhost:8000](http://localhost:8000)
 
 ### Usage
 * [Using Google Tag Manager with a Content Security Policy](https://developers.google.com/tag-platform/tag-manager/web/csp)
-* []()
+* [Strict CSP](https://csp.withgoogle.com/docs/strict-csp.html)
 * []()
 * []()

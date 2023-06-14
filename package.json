@@ -5,8 +5,11 @@
   "repository": "https://github.com/romria/content-security-policy-builder",
   "main": "index.js",
   "scripts": {
-    "start": "node index.js"
+    "start": "nodemon --watch ./src/* ./src/index.js"
   },
   "author": "romria",
-  "license": "Unlicense"
+  "license": "Unlicense",
+  "devDependencies": {
+    "nodemon": "^2.0.22"
+  }
 }

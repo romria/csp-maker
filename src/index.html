@@ -122,7 +122,7 @@
 
     <div class="row tab">
       <label for="floodID">Floodlight advertiser ID</label>
-      <input type="text" id="floodID" name="floodID" placeholder="* if not specified">
+      <input type="text" id="floodID" name="floodID" placeholder="* if not specified (optional)">
     </div>
 
     <div class="row tab">
@@ -150,14 +150,30 @@
       <label for="lo">Lucky Orange</label>
     </div>
 
+    <b>Communication & Customer Support</b>
     <div class="row">
       <input type="checkbox" id="intercom" name="intercom">
       <label for="intercom">Intercom</label>
     </div>
-
+    <div class="row">
+      <input type="checkbox" id="chatlio" name="chatlio">
+      <label for="chatlio">Chatlio</label>
+    </div>
+    <div class="row">
+      <input type="checkbox" id="zendesk" name="zendesk">
+      <label for="zendesk">Zendesk Widget</label>
+    </div>
+    <div class="row tab">
+      <label for="zendeskSubdomain">Zendesk Subdomain</label>
+      <input type="text" id="zendeskSubdomain" name="zendeskSubdomain" placeholder="* if not specified (optional)">
+    </div>
     <div class="row">
       <input type="checkbox" id="ctm" name="ctm">
       <label for="ctm">CallTrackingMetrics</label>
+    </div>
+    <div class="row tab">
+      <label for="ctmID">CTM ID</label>
+      <input type="text" id="ctmID" name="ctmID" placeholder="* if not specified (optional)">
     </div>
 
     <!--    <div>-->
@@ -243,7 +259,7 @@
 
     <div class="row">
       <input type="checkbox" id="gMaps" name="gMaps">
-      <label for="gMaps">Google Maps API</label>
+      <label for="gMaps">Google Maps</label>
     </div>
 
     <div class="row">
@@ -265,6 +281,8 @@
     ];
     const customIDs = {
       floodID: '*',
+      ctmID: '*',
+      zendeskSubdomain: '*',
     }
     const settingsObj = {
       gtm: { // ToDo: add unsafe-inline note: https://developers.google.com/tag-platform/tag-manager/web/csp#enable_the_container_tag_to_use_csp
@@ -432,6 +450,7 @@
         'worker-src': ['blob:'],
         'connect-src': ['https://settings.luckyorange.net', 'wss://*.visitors.live', 'https://pubsub.googleapis.com', 'https://api.luckyorange.com'],
       },
+
       /* Intercom */
       intercom: { // https://www.intercom.com/help/en/articles/3894-using-intercom-with-content-security-policy
         'script-src': ['https://js.intercomcdn.com', 'https://app.intercom.io', 'https://widget.intercom.io'],
@@ -459,9 +478,24 @@
         'form-action': ['https://intercom.help', 'https://api-iam.intercom.io', 'https://api-iam.eu.intercom.io', 'https://api-iam.au.intercom.io'],
         'media-src': ['https://js.intercomcdn.com'],
       },
+      chatlio: { // https://chatlio.com/docs/content-security-policy-csp/
+        'script-src': ['https://w.chatlio.com'],
+        'connect-src': ['https://api.chatlio.com', 'https://api-cdn.chatlio.com', 'wss://push.chatlio.com', 'wss://ws.pusherapp.com'],
+        'img-src': ['data:', 'https://w.chatlio.com', 'https://avatars.slack-edge.com', 'https://files.slack.com', 'https://files-origin.slack.com', 'https://secure.gravatar.com', 'https://uploads-cdn.chatlio.com'],
+        'style-src': ["'unsafe-inline'"],
+      },
+      zendesk: { // https://developer.zendesk.com/documentation/classic-web-widget-sdks/web-widget/integrating-with-google/csp/
+        'script-src': ['https://static.zdassets.com', 'https://ekr.zdassets.com', 'https://ekr.zendesk.com', {var: 'zendeskSubdomain', getVal: (v) => `https://${v}.zendesk.com`}, 'https://*.zopim.com', 'https://zendesk-eu.my.sentry.io', {var: 'zendeskSubdomain', getVal: (v) => `wss://${v}.zendesk.com`}, 'wss://*.zopim.com'],
+        'connect-src': ['https://static.zdassets.com', 'https://ekr.zdassets.com', 'https://ekr.zendesk.com', {var: 'zendeskSubdomain', getVal: (v) => `https://${v}.zendesk.com`}, 'https://*.zopim.com', 'https://zendesk-eu.my.sentry.io', {var: 'zendeskSubdomain', getVal: (v) => `wss://${v}.zendesk.com`}, 'wss://*.zopim.com'],
+        'style-src': ["'unsafe-inline'"],
+        'img-src': ['https://v2assets.zopim.io', 'https://static.zdassets.com', 'data:'],
+      },
+      // livechat: { // ToDo: https://www.livechat.com/help/use-livechat-with-content-security-policy/
+      //
+      // },
       ctm: {
-        'script-src': ['https://*.tctm.co'],
-        'connect-src': ['https://*.tctm.co'],
+        'script-src': [{var: 'ctmID', getVal: (v) => `https://${v}.tctm.co`}],
+        'connect-src': [{var: 'ctmID', getVal: (v) => `https://${v}.tctm.co`}],
       },
 
       /* BugSnag */
@@ -491,8 +525,13 @@
         'frame-src': ['https://hooks.stripe.com'],
       },
       stripeAddress: { // ToDo: https://developers.google.com/maps/documentation/javascript/content-security-policy
-        'script-src': ['https://maps.googleapis.com'],
-        'connect-src': ['https://maps.googleapis.com'],
+        'script-src': ["'unsafe-inline'", "'unsafe-eval'", 'https://*.googleapis.com', 'https://*.gstatic.com', '*.google.com', 'https://*.ggpht.com', '*.googleusercontent.com', 'blob:'],
+        'img-src': ['https://*.googleapis.com', 'https://*.gstatic.com', '*.google.com', '*.googleusercontent.com', 'data:'],
+        'frame-src': ['*.google.com'],
+        'connect-src': ['https://*.googleapis.com', '*.google.com', 'https://*.gstatic.com', 'data:', 'blob:'],
+        'font-src': ['https://fonts.gstatic.com'],
+        'style-src': ["'unsafe-inline'", 'https://fonts.googleapis.com'],
+        'worker-src': ['blob:'],
       },
       // ToDo: https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Security-Policy/require-trusted-types-for
       stripeCheckout: { // https://stripe.com/docs/security/guide#content-security-policy
@@ -506,13 +545,18 @@
         'style-src': ["'unsafe-inline'"],
         'frame-src': ['https://connect-js.stripe.com', 'https://b.stripecdn.com'],
       },
-
       gFonts: {
         'style-src': ['https://fonts.googleapis.com'],
         'font-src': ['https://fonts.gstatic.com'],
       },
       gMaps: { // ToDo: https://developers.google.com/maps/documentation/javascript/content-security-policy
-
+        'script-src': ["'unsafe-inline'", "'unsafe-eval'", 'https://*.googleapis.com', 'https://*.gstatic.com', '*.google.com', 'https://*.ggpht.com', '*.googleusercontent.com', 'blob:'],
+        'img-src': ['https://*.googleapis.com', 'https://*.gstatic.com', '*.google.com', '*.googleusercontent.com', 'data:'],
+        'frame-src': ['*.google.com'],
+        'connect-src': ['https://*.googleapis.com', '*.google.com', 'https://*.gstatic.com', 'data:', 'blob:'],
+        'font-src': ['https://fonts.gstatic.com'],
+        'style-src': ["'unsafe-inline'", 'https://fonts.googleapis.com'],
+        'worker-src': ['blob:'],
       },
       slack: { // ToDo
 
@@ -608,10 +652,11 @@
       }
     }));
 
-    document.getElementById("floodID").addEventListener('input', (e) => {
-      customIDs.floodID = e.target.value || '*';
+    // Change events for text inputs of custom IDs
+    Object.keys(customIDs).forEach(id => document.getElementById(id).addEventListener('input', (e) => {
+      customIDs[id] = e.target.value || '*';
       generateCSP();
-    });
+    }));
 
     document.getElementById("btnCopy").onclick = () => {
       navigator.clipboard.writeText(cspStr);
