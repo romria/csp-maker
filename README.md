@@ -2,6 +2,10 @@
 
 Content Security Policy (CSP) is a security layer that helps to prevent certain types of attacks, including Cross-Site Scripting (XSS) and data injection attacks. This can be achieved by restricting which resources (JavaScript, CSS, Images, etc.) can be loaded on your website.
 
+This project is made to simplify the process of populating CSP rules for `Content-Security-Policy` response header and `<meta>` tags.
+
+🔴IMPORTANT❗🔴 : This software is provided without warranty of any kind. It is not a ready-to-go protection against possible front-end attacks, and you should completely understand what are you doing before adding this feature to your production website
+
 ### Prerequisites
 * [Node.js](https://nodejs.org/) v18.16.0 or higher
 
@@ -31,5 +35,3 @@ open [http://localhost:8000](http://localhost:8000)
 ### Usage
 * [Using Google Tag Manager with a Content Security Policy](https://developers.google.com/tag-platform/tag-manager/web/csp)
 * [Strict CSP](https://csp.withgoogle.com/docs/strict-csp.html)
-* []()
-* []()
