@@ -7,7 +7,7 @@ This project is made to simplify the process of populating CSP rules for `Conten
 🔴IMPORTANT❗🔴 : This software is provided without warranty of any kind. It is not a ready-to-go protection against possible front-end attacks, and you should completely understand what are you doing before adding this feature to your production website
 
 ### Prerequisites
-* [Node.js](https://nodejs.org/) v18.16.0 or higher
+* [Node.js](https://nodejs.org/) v18.11.0 or higher
 
 ### Installation
 ```bash
