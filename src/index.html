@@ -617,10 +617,8 @@
         'style-src': ["'self'"],
         'img-src': ["'self'"],
         'font-src': ["'self'"],
-        'manifest-src': ["'self'"],
         'connect-src': ["'self'"],
         'object-src': ["'self'"],
-        'media-src': ["'self'"],
         'worker-src': ["'self'"],
         'form-action': ["'self'"],
         'base-uri': ["'self'"],
@@ -628,8 +626,19 @@
         'child-src': ["'self'"],
         'frame-ancestors': ["'none'"],
         'prefetch-src': ["'self'"],
+        'manifest-src': ["'self'"],
+        'media-src': ["'self'"], // <audio> & <video> element sources
+        // 'report-uri': [], // deprecated: https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Security-Policy/report-uri
+        // 'report-to': [], // https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Security-Policy/report-to
+        // 'require-trusted-types-for': ["'script'"], // ToDo: https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Security-Policy/require-trusted-types-for
+        // 'trusted-types': [], // https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Security-Policy/trusted-types
+        // 'sandbox': [''],
+        'script-src-attr': ["'self'"], // https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Security-Policy/script-src-attr
+        'script-src-elem': ["'self'"], // https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Security-Policy/script-src-elem
+        'style-src-attr': ["'self'"], // https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Security-Policy/style-src-attr
+        'style-src-elem': ["'self'"], // https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Security-Policy/style-src-elem
         'upgrade-insecure-requests': [],
-        'block-all-mixed-content': []
+        'block-all-mixed-content': [] // will be deprecated soon
       };
 
       boxKeys.forEach((k) => {
