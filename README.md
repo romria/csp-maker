@@ -4,7 +4,8 @@ Content Security Policy (CSP) is a security layer that helps to prevent certain 
 
 This project is made to simplify the process of populating CSP rules for `Content-Security-Policy` response header and `<meta>` tags.
 
-🔴IMPORTANT❗🔴 : This software is provided without warranty of any kind. It is not a ready-to-go protection against possible front-end attacks, and you should completely understand what are you doing before adding this feature to your production website
+🔴IMPORTANT❗🔴 : This software is provided without warranty of any kind. Also, please make sure you understand what exactly each header 
+is doing and test everything before adding these to your production website
 
 ### Prerequisites
 * [Node.js](https://nodejs.org/) v18.11.0 or higher
